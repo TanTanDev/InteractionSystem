@@ -1,0 +1,2 @@
+echo ""
+mono main.exe

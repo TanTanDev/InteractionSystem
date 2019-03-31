@@ -1,14 +1,13 @@
 ﻿namespace InteractionSystem
 {
     // DANGER, you are about to enter the cave of amazing code.
-    [System.Serializable]
     public abstract class ResourceInteraction<TResource, TResourceInteractable> : 
         // Base class
         InteractionBase<TResourceInteractable>
         where TResource : IResource
         where TResourceInteractable : ResourceInteractable<TResource>
     {
-        [SerializeField] private TResource m_modifyResourceBy;
+        private TResource m_modifyResourceBy;
 
         public ResourceInteraction(TResource a_modifyResourceBy)
         {
