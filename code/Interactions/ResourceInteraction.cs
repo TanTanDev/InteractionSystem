@@ -8,7 +8,7 @@
         where TResource : IResource
         where TResourceInteractable : ResourceInteractable<TResource>
     {
-        [SerializeField] private TResource m_modifyResourceBy;
+        public TResource ModifyResourceBy;
 
         public ResourceInteraction(TResource a_modifyResourceBy)
         {
@@ -17,17 +17,17 @@
 
         public void SetModifyResourceBy(TResource a_modifyResourceBy)
         {
-            m_modifyResourceBy = a_modifyResourceBy;
+            ModifyResourceBy = a_modifyResourceBy;
         }
 
         public TResource GetModifyResourceBy()
         {
-            return m_modifyResourceBy;
+            return ModifyResourceBy;
         }
 
         protected override void OnInvoke(TResourceInteractable resourceInteractable)
         {
-            resourceInteractable.Modify(m_modifyResourceBy);
+            resourceInteractable.Modify(ModifyResourceBy);
 
         }
     }
