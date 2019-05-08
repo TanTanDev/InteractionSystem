@@ -1,6 +1,8 @@
-﻿
-// represents solid data
-public abstract class ResourceBase<T>: IResource
+﻿namespace InteractionSystem
 {
-    public T Value;
+    // represents solid data
+    public abstract class ResourceBase<T>: IResource
+    {
+        public T Value;
+    }
 }

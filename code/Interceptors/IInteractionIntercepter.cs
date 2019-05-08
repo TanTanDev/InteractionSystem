@@ -1,4 +1,7 @@
-﻿public interface IInteractionIntercepter
+﻿namespace InteractionSystem
 {
-    System.Type GetInteractionType();
+    public interface IInteractionIntercepter
+    {
+        System.Type GetInteractionType();
+    }
 }

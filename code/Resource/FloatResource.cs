@@ -1,13 +1,15 @@
-﻿
-public class FloatResource : ResourceBase<float>
+﻿namespace InteractionSystem
 {
-    public FloatResource()
+    public class FloatResource : ResourceBase<float>
     {
+        public FloatResource()
+        {
 
-    }
+        }
 
-    public FloatResource(float a_value)
-    {
-        Value = a_value;
+        public FloatResource(float a_value)
+        {
+            Value = a_value;
+        }
     }
 }

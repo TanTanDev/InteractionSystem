@@ -7,20 +7,22 @@
     {
         //public abstract void Invoke(InteractableCollection a_unit, int a_identifier = 0);
 
-        protected TInteractable LocateInteractable(InteractableCollection a_unit, int a_identifier)
+        protected TInteractable LocateInteractable(InteractableCollection a_unit, int a_identifier,
+            InteractionEventType a_interactionType = null)
         {
-            return a_unit.LocateInteractable<TInteractable>(a_identifier: a_identifier);
+            return a_unit.LocateInteractable<TInteractable>(a_eventType: a_interactionType, a_identifier: a_identifier);
         }
 
 
         protected abstract void OnInvoke(TInteractable a_interactable);
 
-        public void Invoke(InteractableCollection a_unit, int a_identifier)
+        public void Invoke(InteractableCollection a_interactableCollection, InteractionEventType a_interactionType = null,
+            int a_identifier = int.MinValue)
         {
-            TInteractable resourceInteractable = LocateInteractable(a_unit, a_identifier);
+            TInteractable interactable = LocateInteractable(a_interactableCollection, a_identifier, a_interactionType);
 
-            if (resourceInteractable != null)
-                OnInvoke(resourceInteractable);
+            if (interactable != null)
+                OnInvoke(interactable);
         }
 
         public void Invoke(TInteractable a_interactable)
@@ -28,6 +30,5 @@
             if(a_interactable != null)
                 OnInvoke(a_interactable);
         }
-
     }
 }

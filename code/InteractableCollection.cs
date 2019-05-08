@@ -7,6 +7,9 @@ namespace InteractionSystem
     {
         // integer identifier mapped to interactable
         protected Dictionary<int, IInteractable> m_interactables;
+
+        // index in m_interactables, mapped to an InteractionEventType
+        protected Dictionary<int, InteractionEventType> m_interactablesEventTypeFilter;
         protected Dictionary<int, IInteractionIntercepter> m_interceptors;
         protected List<int> m_registeredIdentifiers;
 
@@ -16,6 +19,7 @@ namespace InteractionSystem
             m_interactables = new Dictionary<int, IInteractable>();
             m_registeredIdentifiers = new List<int>(4);
             m_interceptors = new Dictionary<int, IInteractionIntercepter>();
+            m_interactablesEventTypeFilter = new Dictionary<int, InteractionEventType>();
         }
 
         public InteractableCollection(Dictionary<int, IInteractable> a_interactables)
@@ -23,6 +27,7 @@ namespace InteractionSystem
             m_interactables = a_interactables;
             m_registeredIdentifiers = new List<int>(4);
             m_interceptors = new Dictionary<int, IInteractionIntercepter>();
+            m_interactablesEventTypeFilter = new Dictionary<int, InteractionEventType>();
         }
 
         private int GenerateUniqueIdentifier()
@@ -31,12 +36,13 @@ namespace InteractionSystem
             if (m_registeredIdentifiers.Count > 0)
                 uniqueId = m_registeredIdentifiers.Max() + 1;
             else
-                uniqueId = 0;
+                uniqueId = int.MinValue;
             return uniqueId;
         }
 
         // Returns unique identifier incase one wasn't provided
-        public int AddInteractable(IInteractable a_interactable, InteractableTypeReference a_identifier = null)
+        public int AddInteractable(IInteractable a_interactable, InteractionEventType a_eventType= null,
+            InteractableTypeReference a_identifier = null)
         {
             int finalIdentifier;
             if (a_identifier == null)
@@ -50,9 +56,14 @@ namespace InteractionSystem
                 throw new System.InvalidOperationException("identifier already registered: " + finalIdentifier);
             }
     #endif
-
             m_interactables.Add(finalIdentifier, a_interactable);
             m_registeredIdentifiers.Add(finalIdentifier);
+
+            // add eventType filter
+            if(a_eventType != null)
+            {
+                m_interactablesEventTypeFilter.Add(finalIdentifier, a_eventType);
+            }
             return finalIdentifier;
         }
 
@@ -79,7 +90,9 @@ namespace InteractionSystem
 
         #region Interactable Locators
 
-        public T LocateInteractable<T>(System.Type a_type = null, int a_identifier = int.MinValue) where T: class, IInteractable
+        public T LocateInteractable<T>(System.Type a_type = null, InteractionEventType a_eventType = null,
+            int a_identifier = int.MinValue)
+            where T: class, IInteractable
         {
             System.Type findType = a_type;
             if (findType == null)
@@ -91,6 +104,20 @@ namespace InteractionSystem
                 interactablePair = m_interactables.FirstOrDefault(p => findType == p.Value.GetType());
             else
                 interactablePair = m_interactables.FirstOrDefault(p => findType == p.Value.GetType() && p.Key == a_identifier);
+
+            // remove in case it's filtered out of the event type
+            if(a_eventType != null)
+            {
+                int interactableIndex = interactablePair.Key;
+                // a filter exists
+                if (m_interactablesEventTypeFilter.ContainsKey(interactableIndex))
+                {
+                    InteractionEventType filteredEventType;
+                    m_interactablesEventTypeFilter.TryGetValue(interactableIndex, out filteredEventType);
+                    if (filteredEventType != null && filteredEventType.GUID == a_eventType.GUID)
+                        return null;
+                }
+            }
             return interactablePair.Value as T;
         }
 

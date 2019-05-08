@@ -1,4 +1,7 @@
-﻿
-public interface IInteractable
+﻿namespace InteractionSystem
 {
+    public interface IInteractable
+    {
+
+    }
 }

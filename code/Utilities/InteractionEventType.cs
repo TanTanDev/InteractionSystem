@@ -1,8 +1,8 @@
 ﻿namespace InteractionSystem
 {
     [System.Serializable]
-    public class InteractableTypeReference
+    public class InteractionEventType
     {
-        public int GUID;
+        public int GUID = 0;
     }
 }
