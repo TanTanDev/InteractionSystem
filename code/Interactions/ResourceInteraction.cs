@@ -25,7 +25,8 @@
             return ModifyResourceBy;
         }
 
-        protected override void OnInvoke(TResourceInteractable resourceInteractable)
+        protected override void OnInvoke(TResourceInteractable resourceInteractable,
+            InteractableCollection a_invokerInteractables)
         {
             resourceInteractable.Modify(ModifyResourceBy);
 
