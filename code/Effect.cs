@@ -60,5 +60,10 @@ namespace InteractionSystem
         {
             return m_effectRemoval.ShouldBeRemoved();
         }
+
+        public void Reset()
+        {
+            m_effectRemoval.Reset();
+        }
     }
 }
