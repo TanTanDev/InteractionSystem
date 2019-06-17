@@ -1,7 +1,9 @@
 ﻿namespace InteractionSystem
 {
-    public interface IInteractionIntercepter
+    public abstract class IInteractionIntercepter
     {
-        System.Type GetInteractionType();
+        public abstract System.Type GetInteractionType();
+        public abstract void Intercept(IInteraction a_interaction, InteractableCollection a_interactableCollection,
+            InteractionEventType a_interactionType, int a_identifier);
     }
 }

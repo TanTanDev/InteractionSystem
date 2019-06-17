@@ -13,7 +13,6 @@
         {
             if(a_interactableCollection == null)
                 throw new System.NullReferenceException("can't locate interactable from null collection");
-
             return a_interactableCollection.LocateInteractable<TInteractable>(a_eventType: a_interactionType, a_identifier: a_identifier);
         }
 
@@ -27,13 +26,15 @@
             TInteractable interactable = LocateInteractable(a_interactableCollection, a_identifier, a_interactionType);
 
             if (interactable != null)
+            {
                 OnInvoke(interactable, a_interactableCollection, a_invokerInteractables);
+            }
         }
 
         // Invoke Interaction with provided interactable
         public void Invoke(TInteractable a_interactable, InteractableCollection a_invokedInteractables = null, InteractableCollection a_invokerInteractables = null)
         {
-            if(a_interactable != null)
+            if (a_interactable != null)
                 OnInvoke(a_interactable, a_invokedInteractables, a_invokerInteractables);
         }
     }

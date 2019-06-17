@@ -141,7 +141,7 @@ namespace InteractionSystem
 
         // Returns an intercepter that intercepts the specified IInteractable type
         public T LocateIntercepter<T>(IInteraction interactable, int a_identifier = int.MinValue)
-            where T: class, IInteractionIntercepter
+            where T: IInteractionIntercepter
         {
             KeyValuePair<int, IInteractionIntercepter> pair;
 
@@ -153,5 +153,17 @@ namespace InteractionSystem
             return pair.Value as T;
         }
 
+        // Returns an intercepter that intercepts the specified IInteractable type
+        public IInteractionIntercepter LocateIntercepter(System.Type a_interactionType, int a_identifier = int.MinValue)
+        {
+            KeyValuePair<int, IInteractionIntercepter> pair;
+
+            // Filter by only type or ALSO identifier
+            if (a_identifier == int.MinValue)
+                pair = m_interceptors.FirstOrDefault(p => a_interactionType == p.Value.GetInteractionType());
+            else
+                pair = m_interceptors.FirstOrDefault(p => a_interactionType == p.Value.GetInteractionType() && a_identifier == p.Key);
+            return pair.Value;
+        }
     }
 }
