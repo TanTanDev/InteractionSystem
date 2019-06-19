@@ -88,6 +88,12 @@ namespace InteractionSystem
             return finalIdentifier;
         }
 
+        public void RemoveIntercepter(int a_identifier)
+        {
+            if(m_interceptors.ContainsKey(a_identifier))
+                m_interceptors.Remove(a_identifier);
+        }
+
         #region Interactable Locators
 
         public T LocateInteractable<T>(System.Type a_type = null, InteractionEventType a_eventType = null,
